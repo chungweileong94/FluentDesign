@@ -1,0 +1,208 @@
+﻿<Page
+    x:Class="FluentDesign.Views.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FluentDesign.Views"
+    xmlns:brushes="using:FluentDesign.Brushes"
+    xmlns:effects="using:FluentDesign.Effects"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Lights>
+        <effects:HoverLight/>
+        <effects:AmbientLightEffect/>
+    </Page.Lights>
+
+    <Page.Resources>
+        <Style x:Key="NavRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Background" Value="{ThemeResource RadioButtonBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource RadioButtonForeground}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="FocusVisualMargin" Value="-7,-3,-7,-3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid x:Name="RootGrid" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ListViewItemBackgroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ListViewItemBackgroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="checker" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+
+                                <VisualStateGroup x:Name="VisualStateGroup">
+                                    <VisualState x:Name="VisualState_Wide">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="800"/>
+                                        </VisualState.StateTriggers>
+                                    </VisualState>
+                                    <VisualState x:Name="VisualState_Normal">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="600"/>
+                                        </VisualState.StateTriggers>
+                                    </VisualState>
+                                    <VisualState x:Name="VisualState_Narrow">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="0"/>
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="B.(UIElement.BorderBrush)">
+                                                <Setter.Value>
+                                                    <SolidColorBrush Color="#FF2D2D2D" effects:HoverLight.IsTarget="True" effects:AmbientLightEffect.IsTarget="True"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Border x:Name="B" Grid.ColumnSpan="2" BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <brushes:HostBlurBrush FallbackColor="#FF2D2D2D" effects:HoverLight.IsTarget="True" effects:AmbientLightEffect.IsTarget="True"/>
+                                    <!--<SolidColorBrush Color="LightGray" effects:HoverLight.IsTarget="True" effects:AmbientLightEffect.IsTarget="True"/>-->
+                                </Border.BorderBrush>
+                            </Border>
+
+                            <Grid Width="48" Height="48">
+                                <Border 
+                                    x:Name="checker"
+                                    Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
+                                    Width="4"
+                                    Margin="0,8"
+                                    HorizontalAlignment="Left"
+                                    Visibility="Collapsed"/>
+
+                                <TextBlock 
+                                    x:Name="icon"
+                                    Text="{TemplateBinding Tag}" 
+                                    FontFamily="Segoe MDL2 Assets"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+                            </Grid>
+                            <ContentPresenter
+                                x:Name="ContentPresenter" 
+                                AutomationProperties.AccessibilityView="Raw" 
+                                ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                Content="{TemplateBinding Content}" 
+                                Grid.Column="1" 
+                                Foreground="{TemplateBinding Foreground}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                TextWrapping="Wrap" 
+                                Margin="12,0,0,0"
+                                VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="VisualState_Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="VisualState_Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.(SplitView.DisplayMode)" Value="CompactOverlay"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualState_Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.(SplitView.DisplayMode)" Value="Overlay"/>
+                        <!--<Setter Target="MainSplitView.(SplitView.PaneBackground)">
+                            <Setter.Value>
+                                <brushes:BlurBrush FallbackColor="#FF2D2D2D"/>
+                            </Setter.Value>
+                        </Setter>-->
+                        <Setter Target="MainSplitView.(SplitView.PaneBackground)" Value="#FF2D2D2D"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid>
+
+            <SplitView 
+                x:Name="MainSplitView" 
+                DisplayMode="CompactInline"
+                IsPaneOpen="True">
+                <SplitView.PaneBackground>
+                    <brushes:HostBlurBrush FallbackColor="#FF2D2D2D"/>
+                </SplitView.PaneBackground>
+
+                <SplitView.Pane>
+                    <StackPanel Padding="{x:Bind ContentMargin, Mode=OneWay}" Margin="0,48,0,0" effects:AmbientLightEffect.IsTarget="True" effects:HoverLight.IsTarget="True">
+                        <RadioButton Content="Home" Tag="&#xE10F;" Style="{StaticResource NavRadioButtonStyle}" Checked="NavRadioButton_Checked"/>
+                        <RadioButton Content="Other" Tag="&#xE701;" Style="{StaticResource NavRadioButtonStyle}" Checked="NavRadioButton_Checked"/>
+                    </StackPanel>
+                </SplitView.Pane>
+                <Grid Padding="{x:Bind ContentMargin, Mode=OneWay}">
+                    <Frame x:Name="ContentFrame"/>
+                </Grid>
+            </SplitView>
+
+            <Button
+                Content="&#xE700;"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Width="48"
+                Height="48"
+                BorderThickness="0"
+                Background="Transparent"
+                Margin="{x:Bind ContentMargin, Mode=OneWay}"
+                VerticalAlignment="Top"
+                Click="MenuButton_Click"/>
+
+            <Grid 
+                Height="{x:Bind TitleBarHeight, Mode=OneWay}"
+                Margin="{x:Bind TitleBarMargin, Mode=OneWay}"
+                VerticalAlignment="Top">
+                <TextBlock Text="{x:Bind TitleBarTitle, Mode=OneWay}" FontSize="12" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
